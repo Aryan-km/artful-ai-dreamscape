@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import ArtStyleCard from './ArtStyleCard';
 
 const ART_STYLES_DATA = [
@@ -19,7 +18,7 @@ const ART_STYLES_DATA = [
     id: 3,
     title: "Anime & Manga",
     description: "Japanese-inspired illustration style characterized by colorful graphics, vibrant characters, and fantastical themes.",
-    imageSrc: "https://images.unsplash.com/photo-1634443686894-9cc70cf0b5c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80"
+    imageSrc: "https://images.unsplash.com/photo-1578632767115-351597cf2477?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80"
   },
   {
     id: 4,
@@ -42,23 +41,46 @@ const ART_STYLES_DATA = [
 ];
 
 const ArtStyles = () => {
+  useEffect(() => {
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.1
+    });
+
+    document.querySelectorAll('.fade-in-section').forEach((section) => {
+      observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="content-wrap py-16">
-      <h2 className="text-3xl font-bold mb-2 text-center">
-        Explore <span className="artful-gradient-text">Art Styles</span>
-      </h2>
-      <p className="text-lg text-gray-600 text-center mb-10">
-        Discover different artistic techniques and find inspiration for your next masterpiece
-      </p>
+    <div className="content-wrap py-16 bg-gray-50 dark:bg-gray-900">
+      <div className="fade-in-section">
+        <h2 className="text-3xl font-bold mb-2 text-center">
+          Explore <span className="artful-gradient-text">Art Styles</span>
+        </h2>
+        <p className="text-lg text-gray-600 dark:text-gray-300 text-center mb-10">
+          Discover different artistic techniques and find inspiration for your next masterpiece
+        </p>
+      </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {ART_STYLES_DATA.map((style) => (
-          <ArtStyleCard
-            key={style.id}
-            title={style.title}
-            description={style.description}
-            imageSrc={style.imageSrc}
-          />
+        {ART_STYLES_DATA.map((style, index) => (
+          <div key={style.id} className="fade-in-section" style={{ transitionDelay: `${index * 100}ms` }}>
+            <ArtStyleCard
+              title={style.title}
+              description={style.description}
+              imageSrc={style.imageSrc}
+            />
+          </div>
         ))}
       </div>
     </div>
