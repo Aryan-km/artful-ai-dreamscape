@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import ThemeToggle from "./ThemeToggle";
 
 interface HeroProps {
   onOpenChatbot: () => void;
@@ -9,6 +10,11 @@ interface HeroProps {
 const Hero = ({ onOpenChatbot }: HeroProps) => {
   return (
     <div className="relative">
+      {/* Theme Toggle positioned at top right */}
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
+
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-artful-blue/40 via-artful-purple/30 to-artful-pink/40 pointer-events-none" />
       
@@ -19,7 +25,7 @@ const Hero = ({ onOpenChatbot }: HeroProps) => {
           </h1>
         </div>
         
-        <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-gray-800">
+        <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-gray-800 dark:text-gray-200">
           Transform your ideas into inspiring art concepts with our AI-powered prompt generator
         </p>
         

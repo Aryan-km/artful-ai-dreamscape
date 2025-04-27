@@ -1,14 +1,18 @@
 
 import React from 'react';
+import { Palette } from 'lucide-react';
 
 const Footer = () => {
   return (
     <footer className="artful-gradient-bg text-white py-8">
       <div className="content-wrap">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
-            <h3 className="text-xl font-bold">AI Art Prompt Generator</h3>
-            <p className="text-sm opacity-80">Unleash your creativity with AI-powered inspiration</p>
+          <div className="mb-4 md:mb-0 flex items-center">
+            <Palette className="h-8 w-8 mr-3" />
+            <div>
+              <h3 className="text-xl font-bold">AI Art Prompt Generator</h3>
+              <p className="text-sm opacity-80">Unleash your creativity with AI-powered inspiration</p>
+            </div>
           </div>
           
           <div className="flex space-x-6">

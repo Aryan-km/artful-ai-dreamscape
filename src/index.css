@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -83,9 +82,7 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
@@ -96,11 +93,7 @@
 }
 
 .glass-card {
-  @apply bg-white/40 backdrop-blur-lg border border-white/20 shadow-lg;
-}
-
-.content-wrap {
-  @apply px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl py-12;
+  @apply bg-white/40 dark:bg-black/40 backdrop-blur-lg border border-white/20 dark:border-black/20 shadow-lg;
 }
 
 .artful-gradient-text {
@@ -108,5 +101,9 @@
 }
 
 .artful-gradient-bg {
-  @apply bg-gradient-to-r from-artful-blue via-artful-purple to-artful-pink;
+  @apply bg-gradient-to-r from-artful-blue via-artful-purple to-artful-pink text-white;
+}
+
+.content-wrap {
+  @apply text-gray-800 dark:text-gray-200;
 }
