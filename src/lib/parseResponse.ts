@@ -1,12 +1,12 @@
 
 /**
- * Parses AI response text with Markdown-style formatting into HTML
+ * Parses AI response text with Markdown-style formatting into HTML with neon styling
  */
 const parseResponse = (text: string): string => {
-  // Handle bold text (both ** and __ formats)
+  // Handle bold text with neon styling using website's color palette
   let formatted = text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/__(.*?)__/g, '<strong>$1</strong>');
+    .replace(/\*\*(.*?)\*\*/g, '<strong class="neon-text-bold">$1</strong>')
+    .replace(/__(.*?)__/g, '<strong class="neon-text-bold">$1</strong>');
   
   // Handle paragraphs
   formatted = formatted

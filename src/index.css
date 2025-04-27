@@ -118,4 +118,35 @@
   .fade-in-section.is-visible {
     @apply opacity-100 translate-y-0;
   }
+
+  .neon-text-bold {
+    @apply text-artful-purple; /* Base color */
+    text-shadow: 
+      0 0 7px theme('colors.artful.purple'),
+      0 0 10px theme('colors.artful.purple'),
+      0 0 21px theme('colors.artful.purple'),
+      0 0 42px theme('colors.artful.purple'),
+      0 0 82px theme('colors.artful.purple'),
+      0 0 92px theme('colors.artful.purple'),
+      0 0 102px theme('colors.artful.purple'),
+      0 0 151px theme('colors.artful.purple');
+    
+    /* Slight animation to make it more vibrant */
+    animation: neon-flicker 1.5s infinite alternate;
+  }
+
+  @keyframes neon-flicker {
+    0% {
+      text-shadow: 
+        0 0 7px theme('colors.artful.purple'),
+        0 0 10px theme('colors.artful.purple'),
+        0 0 21px theme('colors.artful.purple');
+    }
+    100% {
+      text-shadow: 
+        0 0 10px theme('colors.artful.purple'),
+        0 0 21px theme('colors.artful.purple'),
+        0 0 42px theme('colors.artful.purple');
+    }
+  }
 }
