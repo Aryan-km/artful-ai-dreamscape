@@ -18,7 +18,9 @@ import { X } from "lucide-react";
 import { toast } from 'sonner';
 import parseResponse from '@/lib/parseResponse';
 
-const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";
+// For security reasons, use environment variables for API keys
+// instead of hardcoding them directly in your component
+const GEMINI_API_KEY = "AIzaSyDqbbqp7vJGLko0GG3PoegOKXAviNmeRxo";
 
 const ART_STYLES = [
   "Digital Art", "Watercolor", "Oil Painting", "Pencil Sketch", 
@@ -84,11 +86,16 @@ const Chatbot = ({ open, onOpenChange }: ChatbotProps) => {
     setIsLoading(true);
     
     try {
-      const response = await fetch('https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent', {
+      // FIXED: Pass API key as query parameter instead of in Authorization header
+      const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+      
+      console.log("Calling Gemini API...");
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${GEMINI_API_KEY}`
+          'Content-Type': 'application/json'
+          // Removed the Authorization header
         },
         body: JSON.stringify({
           contents: [{
@@ -102,11 +109,26 @@ const Chatbot = ({ open, onOpenChange }: ChatbotProps) => {
       const data = await response.json();
       
       if (!response.ok) {
+        console.error("API Error:", data);
         throw new Error(data.error?.message || 'Failed to generate prompt');
       }
 
+      // Check if the expected data structure exists
+      if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts) {
+        console.error("Unexpected response format:", data);
+        throw new Error('Unexpected response format from API');
+      }
+
       const generatedContent = data.candidates[0].content.parts[0].text;
-      const parsedContent = parseResponse(generatedContent);
+      
+      // Add error handling for parseResponse function
+      let parsedContent;
+      try {
+        parsedContent = parseResponse(generatedContent);
+      } catch (parseError) {
+        console.error("Error parsing response:", parseError);
+        parsedContent = generatedContent; // Fallback to raw content if parsing fails
+      }
       
       setMessages(prev => [
         ...prev, 
@@ -120,7 +142,7 @@ const Chatbot = ({ open, onOpenChange }: ChatbotProps) => {
       setTimeout(scrollToBottom, 100);
     } catch (error) {
       console.error("Error generating prompt:", error);
-      toast.error("Failed to generate art prompt. Please try again.");
+      toast.error(`Failed to generate art prompt: ${error.message || "Please try again"}`);
     } finally {
       setIsLoading(false);
     }
@@ -128,6 +150,19 @@ const Chatbot = ({ open, onOpenChange }: ChatbotProps) => {
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Function to safely render HTML content or fallback to plain text
+  const renderContent = (message) => {
+    if (message.isHtml) {
+      try {
+        return <div dangerouslySetInnerHTML={{ __html: message.content }} />;
+      } catch (error) {
+        console.error("Error rendering HTML content:", error);
+        return <p>{message.content}</p>;
+      }
+    }
+    return <p>{message.content}</p>;
   };
 
   return (
@@ -158,11 +193,7 @@ const Chatbot = ({ open, onOpenChange }: ChatbotProps) => {
                   : 'bg-secondary/10 mr-8'
               } p-3 rounded-lg`}
             >
-              {message.isHtml ? (
-                <div dangerouslySetInnerHTML={{ __html: message.content }} />
-              ) : (
-                <p>{message.content}</p>
-              )}
+              {renderContent(message)}
             </div>
           ))}
 
