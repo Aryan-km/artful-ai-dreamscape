@@ -22,11 +22,11 @@ const FEATURES = [
 
 const Features = () => {
   return (
-    <div className="content-wrap py-16 bg-gray-50">
+    <div className="content-wrap py-16 bg-background">
       <h2 className="text-3xl font-bold mb-2 text-center">
-        Powerful <span className="artful-gradient-text">Features</span>
+        <span className="artful-gradient-text">Powerful Features</span>
       </h2>
-      <p className="text-lg text-gray-600 text-center mb-10">
+      <p className="text-lg mb-10 text-muted-foreground text-center">
         Tools designed to enhance your creative process
       </p>
       
@@ -36,11 +36,11 @@ const Features = () => {
             key={index} 
             className="glass-card p-6 rounded-xl text-center flex flex-col items-center"
           >
-            <div className="mb-4 p-3 rounded-full bg-white shadow-sm">
+            <div className="mb-4 p-3 rounded-full bg-background/50 shadow-sm">
               {feature.icon}
             </div>
-            <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-            <p className="text-gray-600">{feature.description}</p>
+            <h3 className="text-xl font-semibold mb-2 text-foreground">{feature.title}</h3>
+            <p className="text-muted-foreground">{feature.description}</p>
           </div>
         ))}
       </div>
